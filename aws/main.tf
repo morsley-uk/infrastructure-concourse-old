@@ -21,11 +21,40 @@ module "vpc" {
   
 }
 
+data "aws_ami" "ubuntu" {
+  
+  most_recent = true
+  owners = ["amazon"]
+  
+  filter {
+    name = "platform"
+    values = ["ubuntu"]
+  }
+
+  #Root device type: ebs 
+  #Virtualization type: hvm 
+  #ENA Enabled: Yes
+  
+}
 //module "ec2-instance" {
 //
 //  source  = "terraform-aws-modules/ec2-instance/aws"
 //  version = "2.12.0"
-//  
-//  # insert the 10 required variables here
+//
+//  name                   = "concourse"
+//  instance_count         = 1
+//
+//  ami                    = "ami-0fc20dd1da406780b"
+//  instance_type          = "t2.micro"
+//  key_name               = "user1"
+//  monitoring             = true
+//  vpc_security_group_ids = ["sg-12345678"]
+//  subnet_id              = "subnet-eddcdzz4"
+//
+//  tags = {
+//    Terraform   = "true"
+//    Environment = "Development"
+//    Operation   = "Concourse"
+//  }
 //  
 //}
