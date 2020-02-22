@@ -21,7 +21,3 @@ variable "public_keys_bucket" {
 variable "private_keys_bucket" {
   default = "morsley-uk-concourse-private-keys"
 }
-
-//variable "keys_bucket_name" {
-//  default
-//}

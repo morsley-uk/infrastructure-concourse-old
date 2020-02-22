@@ -6,10 +6,10 @@
 
 resource "aws_vpc" "concourse-vpc" {
 
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
+  cidr_block           = "10.0.0.0/16"
+  instance_tenancy     = "default"
   enable_dns_hostnames = true
-  
+
   tags = {
     Name = "Concourse VPC"
   }
@@ -20,11 +20,11 @@ resource "aws_vpc" "concourse-vpc" {
 
 resource "aws_subnet" "public" {
 
-  vpc_id     = aws_vpc.concourse-vpc.id
-  cidr_block = "10.0.1.0/24" # ToDo --> Variable
+  vpc_id                  = aws_vpc.concourse-vpc.id
+  cidr_block              = "10.0.1.0/24" # ToDo --> Variable
   map_public_ip_on_launch = true
   #availability_zone = ?
-  
+
   tags = {
     Name = "Public"
   }
@@ -38,7 +38,7 @@ resource "aws_subnet" "private" {
   vpc_id     = aws_vpc.concourse-vpc.id
   cidr_block = "10.0.2.0/24" # ToDo --> Variable
   #map_public_ip_on_launch = true
-  
+
   tags = {
     Name = "Private"
   }
@@ -56,13 +56,13 @@ resource "aws_subnet" "private" {
 # https://www.terraform.io/docs/providers/aws/r/internet_gateway.html
 
 resource "aws_internet_gateway" "concourse-igw" {
-  
+
   vpc_id = aws_vpc.concourse-vpc.id
 
   tags = {
     Name = "Concourse"
   }
-  
+
 }
 
 # ROUTE TABLES
@@ -70,27 +70,27 @@ resource "aws_internet_gateway" "concourse-igw" {
 # https://www.terraform.io/docs/providers/aws/r/route_table.html
 
 resource "aws_route_table" "concourse-rt" {
-  
+
   vpc_id = aws_vpc.concourse-vpc.id
 
   route {
     cidr_block = "0.0.0.0/0" # ToDo --> Variable
     gateway_id = aws_internet_gateway.concourse-igw.id
   }
-  
+
   tags = {
     Name = "Concourse"
   }
-  
+
 }
 
 # https://www.terraform.io/docs/providers/aws/r/route_table_association.html
 
 resource "aws_route_table_association" "concourse-rta" {
-  
+
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.concourse-rt.id
-  
+
 }
 # NAT GATEWAY
 
@@ -108,7 +108,7 @@ resource "aws_route_table_association" "concourse-rta" {
 # https://www.terraform.io/docs/providers/aws/r/security_group.html
 
 resource "aws_security_group" "concourse-sg" {
-  
+
   name        = "Concourse"
   description = "Concourse"
   vpc_id      = aws_vpc.concourse-vpc.id
@@ -142,12 +142,12 @@ resource "aws_security_group" "concourse-sg" {
   }
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
 }
 
 # NETWORK ACLs
@@ -155,7 +155,7 @@ resource "aws_security_group" "concourse-sg" {
 # https://www.terraform.io/docs/providers/aws/r/network_acl.html
 
 resource "aws_network_acl" "allow-all" {
-  
+
   vpc_id = aws_vpc.concourse-vpc.id
 
   egress {
@@ -179,7 +179,7 @@ resource "aws_network_acl" "allow-all" {
   tags = {
     Name = "Allow All"
   }
-  
+
 }
 
 # DHCP OPTIONS
