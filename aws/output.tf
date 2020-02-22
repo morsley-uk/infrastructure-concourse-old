@@ -1,35 +1,54 @@
-output "vpc_id" {
-  
-  value = module.vpc.vpc_id
-  
-}
+#output "vpc_id" {
 
-output "public_subnets" {
+#  value = data.aws_vpc.default
+#   value = module.vpc.vpc_id
 
-  value = module.vpc.public_subnets
+#}
 
-}
+#output "first_subnet" {
 
-output "private_subnets" {
+#  value = sort(data.aws_subnet_ids.public.ids)[0]
 
-  value = module.vpc.private_subnets
+#}
 
-}
+#output "security_groups" {
 
-output "security_group_id" {
-  
-  value = module.vpc.default_security_group_id
-  
-}
+#  value = data.aws_security_groups.default
 
-output "key_fingerprint" {
-  
-  value = module.key-pair.this_key_pair_fingerprint
-  
-}
+#}
+
+# output "public_subnets" {
+
+#   value = module.vpc.public_subnets
+
+# }
+
+# output "private_subnets" {
+
+#   value = module.vpc.private_subnets
+
+# }
+
+# output "security_group_id" {
+
+#   value = module.vpc.default_security_group_id
+
+# }
+
+//output "key_fingerprint" {
+//  
+//  value = module.key-pair.this_key_pair_fingerprint
+//  
+//}
 
 output "ami_id" {
-  
+
   value = data.aws_ami.ubuntu.id
+
+}
+
+output "aws_instance_public_dns" {
+  
+  value = aws_instance.concourse.public_dns
   
 }
