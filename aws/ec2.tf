@@ -2,14 +2,6 @@
 # EC2 - Elastic Compute Cloud
 ###############################################################################
 
-# https://www.terraform.io/docs/providers/template/d/file.html
-
-data "template_file" "docker" {
-
-  template = file("${path.module}/docker.sh")
-
-}
-
 # https://www.terraform.io/docs/providers/aws/r/instance.html
 
 resource "aws_instance" "concourse" {
