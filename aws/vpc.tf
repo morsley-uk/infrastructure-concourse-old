@@ -92,6 +92,7 @@ resource "aws_route_table_association" "concourse-rta" {
   route_table_id = aws_route_table.concourse-rt.id
 
 }
+
 # NAT GATEWAY
 
 # https://www.terraform.io/docs/providers/aws/r/nat_gateway.html
