@@ -11,5 +11,6 @@ terraform {
     key            = "infrastructure"
     region         = "eu-west-2"
     dynamodb_table = "tfstatelock"
+    encypt         = true
   }
 }
